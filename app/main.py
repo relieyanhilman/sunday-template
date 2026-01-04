@@ -1,13 +1,27 @@
 from fastapi import FastAPI
 from .ai_engine import ai_engine
 from pydantic import BaseModel
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
+import time
 
 
 class PromptSchema(BaseModel):
     text: str
 
 app = FastAPI(title="Hackathon AI Starter")
+
+@app.middleware("http")
+async def add_process_time_header(request: Request, call_next):
+    start_time = time.perf_counter()
+
+    response = await call_next(request)
+
+    process_time = time.perf_counter() - start_time
+
+    response.headers['X-Process-Time'] = f"{process_time:.4f}s"
+    print(f"Path: {request.url.path} | Duration: {process_time:.4f}s")
+
+    return response
 
 @app.get("/")
 def read_root():
