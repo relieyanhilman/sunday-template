@@ -1,0 +1,22 @@
+# Git
+.git
+.gitignore
+
+# Python virtual environments
+.venv
+venv
+env
+ENV
+
+# Python cache
+*.pyc
+*.pyo
+*.pyd
+*__pycache__*
+
+# Local environment variables
+.env
+
+# IDEs
+.vscode
+.idea
